@@ -3,288 +3,258 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>TUNZY SOLOS – OB51 Sensi</title>
+<title>TUNZY SENSI V3 – OB51</title>
 <link rel="icon" href="" />
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
 
   :root{
     --accent:#00b4d8;
-    --dark1:#000814;
-    --dark2:#001d3d;
-    --card-bg: rgba(0,0,0,0.75);
+    --dark-bg:#000;
+    --glow:#00e0ff;
   }
 
-  *{box-sizing:border-box}
-  html,body{height:100%;margin:0;font-family:'Poppins',sans-serif;color:#fff;background:#000;overflow-x:hidden}
-  a{color:inherit;text-decoration:none}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Poppins',sans-serif;
+    background:var(--dark-bg);
+    color:#fff;
+    overflow-x:hidden;
+  }
 
-  /* --- single combined wallpaper using layered images --- */
+  /* ==== Wallpaper Characters ==== */
   .wallpaper{
     position:fixed;
     inset:0;
-    z-index:-4;
+    z-index:-5;
     overflow:hidden;
-    background: linear-gradient(180deg, rgba(0,0,0,0.12), rgba(0,0,0,0.45));
+    background:radial-gradient(circle at center, rgba(0,0,0,0.2), #000 80%);
   }
 
-  /* left: Kelly */
-  .wall-left{
-    position:absolute;left:-6%;top:4%;
-    width:42%;height:100%;
-    background-image:url('https://dl.dir.freefiremobile.com/common/web_event/official2.ff.garena.all/202311/a80ef2744fa83dc119cc09249d70444e.png');
-    background-position:left bottom;
+  /* Kelly (Left) */
+  .kelly-left, .kelly-right, .orion, .maxim{
+    position:absolute;
     background-size:cover;
-    filter:brightness(0.95) saturate(1.05) contrast(1.02);
-    transform:translateZ(0);
-    -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.08) 85%, rgba(0,0,0,0) 100%);
-    mask-image: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.08) 85%, rgba(0,0,0,0) 100%);
-  }
-
-  /* center: Orion */
-  .wall-center{
-    position:absolute;left:28%;top:-4%;
-    width:44%;height:110%;
-    background-image:url('https://dl.dir.freefiremobile.com/common/web_event/official2.ff.garena.all/20238/4f4fc6c6d43fc3bb5ef4617f9f5340f7.png');
+    background-repeat:no-repeat;
     background-position:center bottom;
-    background-size:cover;
-    filter:brightness(0.9) saturate(1.02) contrast(1.05);
-    transform:translateZ(0);
-    -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,0.12) 5%, rgba(0,0,0,1) 100%);
-    mask-image: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,0.12) 5%, rgba(0,0,0,1) 100%);
+    filter:brightness(1.15) saturate(1.1) contrast(1.05);
   }
 
-  /* right: Maxim */
-  .wall-right{
-    position:absolute;right:-6%;top:6%;
-    width:42%;height:100%;
+  .kelly-left{
+    left:-6%;bottom:0;width:40%;height:100%;
+    background-image:url('https://dl.dir.freefiremobile.com/common/web_event/official2.ff.garena.all/202311/a80ef2744fa83dc119cc09249d70444e.png');
+  }
+
+  /* Orion (center) */
+  .orion{
+    left:28%;bottom:-4%;width:44%;height:110%;
+    background-image:url('https://dl.dir.freefiremobile.com/common/web_event/official2.ff.garena.all/20238/4f4fc6c6d43fc3bb5ef4617f9f5340f7.png');
+    filter:brightness(1.08) saturate(1.1);
+  }
+
+  /* Maxim (right) */
+  .maxim{
+    right:-8%;bottom:0;width:40%;height:100%;
     background-image:url('https://freefiremobile-a.akamaihd.net/common/web_event/official2.ff.garena.all/img/20228/59dc42433e877fa0cc3bb69b74dbf2c8.png');
-    background-position:right bottom;
-    background-size:cover;
-    filter:brightness(0.95) saturate(1.06) contrast(1.03);
-    transform:translateZ(0);
-    -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,0.08) 85%, rgba(0,0,0,0) 100%);
-    mask-image: linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,0.08) 85%, rgba(0,0,0,0) 100%);
+    filter:brightness(1.1) saturate(1.15);
   }
 
-  /* soft global vignette and glow */
+  /* Kelly duplicate on right */
+  .kelly-right{
+    right:-18%;bottom:0;width:50%;height:100%;
+    background-image:url('https://dl.dir.freefiremobile.com/common/web_event/official2.ff.garena.all/202311/a80ef2744fa83dc119cc09249d70444e.png');
+    transform:scaleX(-1);
+    opacity:0.9;
+    filter:brightness(1.2) saturate(1.2);
+  }
+
+  /* Global glow overlay */
   .wallpaper::after{
-    content:"";position:absolute;inset:0;
-    background:radial-gradient(60% 60% at 50% 55%, rgba(0,180,216,0.06), rgba(0,0,0,0.7));
-    pointer-events:none;
+    content:"";
+    position:absolute;inset:0;
+    background:radial-gradient(circle at 50% 55%, rgba(0,255,255,0.08), rgba(0,0,0,0.85));
   }
 
-  /* glowing banner (over Maxim) */
-  .tunzy-banner{
-    position:fixed;
-    right:7vw;
-    top:58vh;
-    transform:translateY(-50%);
-    z-index:-1; /* keep behind cards but above wallpaper; cards will have higher z-index */
-    pointer-events:none;
-    font-family:'Orbitron',sans-serif;
-    font-weight:800;
-    letter-spacing:2px;
-    font-size:28px;
-    padding:12px 22px;
-    border-radius:10px;
-    color:#001b21;
-    background:linear-gradient(90deg,#9ff0ff,#00b4d8);
-    box-shadow: 0 10px 40px rgba(0,180,216,0.25), 0 2px 8px rgba(0,0,0,0.6);
+  /* ==== Header Title ==== */
+  header{
+    position:relative;
+    z-index:10;
     text-align:center;
+    padding:22px 10px;
+    background:rgba(0,0,0,0.55);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid rgba(255,255,255,0.08);
   }
-  @media(max-width:880px){
-    .tunzy-banner{right:6vw;top:62vh;font-size:18px;padding:8px 14px}
+  header h1{
+    font-family:'Orbitron',sans-serif;
+    font-size:2rem;
+    letter-spacing:2px;
+    background:linear-gradient(90deg,#00e0ff,#00b4d8,#00e0ff);
+    -webkit-background-clip:text;
+    color:transparent;
+    text-shadow:0 0 15px rgba(0,180,216,0.7);
+  }
+  header p{
+    font-size:1rem;
+    color:#cce7ef;
+    margin-top:6px;
   }
 
-  /* header / site content styling (above wallpaper) */
-  header{position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:18px 20px;background:linear-gradient(90deg, rgba(0,0,0,0.20), rgba(0,0,0,0.12));border-bottom:1px solid rgba(0,180,216,0.06);backdrop-filter:blur(4px)}
-  .brand{display:flex;gap:12px;align-items:center}
-  .logo{background:linear-gradient(90deg,var(--accent),#0077b6);-webkit-background-clip:text;background-clip:text;color:transparent;font-family:'Orbitron',sans-serif;font-size:1.4rem;letter-spacing:1px}
-  .tag{font-size:0.9rem;color:#cfeff6;opacity:0.95}
+  /* ==== Main Card ==== */
+  main{
+    position:relative;
+    z-index:11;
+    max-width:900px;
+    margin:40px auto;
+    padding:18px;
+    background:rgba(0,0,0,0.7);
+    border-radius:16px;
+    box-shadow:0 0 20px rgba(0,180,216,0.2);
+  }
 
-  .wrap{position:relative;z-index:11;max-width:980px;margin:32px auto;padding:18px;display:grid;grid-template-columns:1fr;gap:18px}
-  .card{background:var(--card-bg);border-radius:16px;padding:18px;box-shadow:0 8px 30px rgba(0,0,0,0.5);border:1px solid rgba(0,180,216,0.06)}
-  label{display:block;font-weight:600;color:#bfeff8;margin-bottom:6px}
-  select,input{width:100%;padding:12px;border-radius:10px;border:none;background:rgba(255,255,255,0.03);color:#fff}
-  button.primary{background:var(--accent);color:#000;padding:12px 18px;border-radius:10px;border:none;font-weight:700;cursor:pointer;box-shadow:0 6px 18px rgba(0,180,216,0.08)}
-  button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:10px 14px;border-radius:10px;color:#dff7ff}
-  .muted{color:#bfeff8;opacity:0.9}
+  label{display:block;margin:10px 0 6px;font-weight:600;color:#9cecff}
+  select,input{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:rgba(255,255,255,0.1);
+    color:#fff;
+  }
 
-  #output{margin-top:14px;padding:14px;border-radius:10px;background:linear-gradient(180deg, rgba(0,0,50,0.18), rgba(0,0,60,0.32));color:#dff7ff;font-weight:600;white-space:pre-line}
+  button{
+    margin-top:14px;
+    padding:12px 20px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:700;
+  }
+  .primary{
+    background:var(--accent);
+    color:#000;
+  }
+  .ghost{
+    background:transparent;
+    border:1px solid rgba(255,255,255,0.3);
+    color:#fff;
+  }
 
-  .download-row{text-align:center;padding:14px;border-radius:12px;background:linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0.6));}
-  .download-btn{display:inline-block;margin:8px;padding:10px 16px;border-radius:10px;background:#004f67;color:#fff;font-weight:700}
+  #output{
+    margin-top:20px;
+    padding:14px;
+    border-radius:10px;
+    background:rgba(0,0,50,0.3);
+    color:#aefcff;
+    font-weight:600;
+    white-space:pre-line;
+  }
 
-  footer{position:relative;z-index:11;margin:30px auto 60px;text-align:center;color:#bfeff8;opacity:0.95}
+  footer{
+    text-align:center;
+    margin:30px 0;
+    color:#9cecff;
+    font-size:0.9rem;
+  }
 
-  /* responsive: two column on wide screens */
-  @media(min-width:880px){ .wrap{grid-template-columns:430px 1fr;align-items:start} }
-  @media(max-width:480px){ header{padding:12px} .logo{font-size:1.2rem} .wrap{margin:18px} .wall-left,.wall-center,.wall-right{display:none} .wallpaper{background:black} .tunzy-banner{display:none} }
-
+  @media(max-width:700px){
+    header h1{font-size:1.5rem;}
+    .kelly-left,.kelly-right,.maxim,.orion{opacity:0.3;}
+  }
 </style>
 </head>
 <body>
 
-  <!-- combined wallpaper layers -->
-  <div class="wallpaper" aria-hidden="true">
-    <div class="wall-left" aria-hidden="true"></div>
-    <div class="wall-center" aria-hidden="true"></div>
-    <div class="wall-right" aria-hidden="true"></div>
-  </div>
+<!-- === Visible Wallpaper Layer === -->
+<div class="wallpaper">
+  <div class="kelly-left"></div>
+  <div class="orion"></div>
+  <div class="maxim"></div>
+  <div class="kelly-right"></div>
+</div>
 
-  <!-- TUNZY SENSI banner (styled to look like Maxim holding it) -->
-  <div class="tunzy-banner">TUNZY SENSI</div>
+<!-- === Header / Title === -->
+<header>
+  <h1>TUNZY SENSI V3</h1>
+  <p>OB51 • Tunzy Shop • Free Fire Sensitivity Generator</p>
+</header>
 
-  <header>
-    <div class="brand">
-      <div class="logo">TUNZY SOLOS</div>
-      <div class="tag">OB51 SENSI • Tunzy Shop</div>
-    </div>
-    <div style="display:flex;gap:10px;align-items:center">
-      <a class="contact" href="https://wa.me/2349067345425" target="_blank" style="background:var(--accent);color:#000;padding:10px 12px;border-radius:10px;font-weight:700">Contact +234 906 734 5425</a>
-    </div>
-  </header>
+<!-- === Main Section === -->
+<main>
+  <label for="deviceType">Select Your Device</label>
+  <select id="deviceType">
+    <option value="">-- Choose Device Type --</option>
+    <option value="iphone">iPhone</option>
+    <option value="android">Android</option>
+    <option value="others">Others</option>
+  </select>
 
-  <main class="wrap" role="main">
-    <!-- left: generator -->
-    <section class="card center">
-      <h2 style="margin:0 0 12px;color:var(--accent);font-family:'Orbitron',sans-serif">Free Fire • OB51 Recommended</h2>
+  <div id="deviceOptions"></div>
 
-      <label for="deviceType">Select Your Device</label>
-      <select id="deviceType" aria-label="Device type">
-        <option value="">-- Choose Device Type --</option>
-        <option value="iphone">iPhone</option>
-        <option value="android">Android</option>
-        <option value="others">Others</option>
-      </select>
+  <button class="primary" onclick="showSettings()">Get OB51 Sensi</button>
+  <button class="ghost" onclick="copyOutput()">Copy To Clipboard</button>
 
-      <div id="deviceOptions" style="margin-top:10px"></div>
+  <div id="output">Choose a device and tap <strong>Get OB51 Sensi</strong></div>
+</main>
 
-      <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">
-        <button class="primary" onclick="showSettings()">Get OB51 Sensi</button>
-        <button class="ghost" onclick="copyOutput()">Copy To Clipboard</button>
-      </div>
-
-      <div id="output" aria-live="polite" style="margin-top:12px">Choose a device and tap <strong>Get OB51 Sensi</strong></div>
-    </section>
-
-    <!-- right: install & info -->
-    <aside class="card">
-      <h3 style="color:var(--accent);margin-top:0;font-family:'Orbitron',sans-serif">Install & Download</h3>
-      <p class="muted">Install on Android / iPhone — works like an app. Later we can also make Play Store & App Store builds.</p>
-
-      <div class="download-row" id="downloadRow">
-        <a class="download-btn" onclick="showAndroidInstructions()">Android Install</a>
-        <a class="download-btn" onclick="showIOSInstructions()">iPhone Install</a>
-        <div style="margin-top:12px;font-size:0.95rem;color:#cfeff6" id="instructions">Tap a button above for step-by-step.</div>
-      </div>
-
-      <hr style="border:none;border-top:1px solid rgba(255,255,255,0.04);margin:16px 0">
-
-      <h4 style="margin:6px 0">About These Sensitivities</h4>
-      <p class="muted">These recommended OB51 numbers are tested suggestions — copy them and paste into Free Fire → Settings → Sensitivity. They won't auto-apply inside the game (that's restricted by the game).</p>
-
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
-        <button class="ghost" onclick="openShare()">Share Link</button>
-        <a class="ghost" href="https://tunzy-shop.github.io/tunzy-solos/" target="_blank">Open Live</a>
-      </div>
-    </aside>
-  </main>
-
-  <footer>
-    Designed by Tunzy Shop • © TUNZY SOLOS • OB51
-  </footer>
+<footer>
+  © 2025 TUNZY SENSI V3 — Designed by Tunzy Shop
+</footer>
 
 <script>
-  // sensitivity generator + UI logic (same as before)
-  const iphones = ["iPhone 8","iPhone X","iPhone XR","iPhone 11","iPhone 12","iPhone 13","iPhone 14","iPhone 15"];
-  const androids = ["Samsung S20","Samsung S22","Samsung S23","Infinix Hot 11","Infinix Note 12","Tecno Camon 19","Xiaomi Redmi Note 12","POCO X3","Vivo Y20","Samsung A14","Samsung A23"];
+const iphones = ["iPhone 8","iPhone X","iPhone 11","iPhone 12","iPhone 13","iPhone 14","iPhone 15"];
+const androids = ["Infinix Hot 11","Infinix Note 12","Tecno Camon 19","Samsung A23","Samsung S23","Vivo Y20","POCO X3","Redmi Note 12"];
 
-  document.getElementById('deviceType').addEventListener('change', function(){
-    const type = this.value; const box = document.getElementById('deviceOptions'); box.innerHTML='';
-    if(type === 'iphone'){
-      let html = '<label>Select iPhone model</label><select id="iphoneModel">';
-      iphones.forEach(m=> html += `<option>${m}</option>`);
-      html += '</select>';
-      box.innerHTML = html;
-    } else if(type === 'android'){
-      let html = '<label>Select Android model</label><select id="androidModel">';
-      androids.forEach(m=> html += `<option value="${m}">${m}</option>`);
-      html += '<option value="custom">Other (type below)</option></select>';
-      html += '<input id="customAndroid" placeholder="Enter device name" style="display:none;margin-top:8px;padding:10px;border-radius:10px">';
-      html += '<label style="margin-top:8px">DPI</label><select id="dpi"><option value="150">150</option><option value="200">200</option><option value="250">250</option><option value="299">299</option><option value="399">399</option></select>';
-      box.innerHTML = html;
-      document.getElementById('androidModel').addEventListener('change', function(){
-        document.getElementById('customAndroid').style.display = this.value === 'custom' ? 'block' : 'none';
-      });
-    } else if(type === 'others'){
-      box.innerHTML = '<label>Enter device name</label><input id="otherDevice" placeholder="e.g. Tablet XYZ" style="padding:10px;border-radius:10px">';
-    }
-  });
-
-  function showSettings(){
-    const type = document.getElementById('deviceType').value;
-    const out = document.getElementById('output');
-    let txt = '';
-    if(type === 'iphone'){
-      const model = document.getElementById('iphoneModel')?.value || 'iPhone';
-      txt = `📱 ${model} • OB51 Recommended Sensi\n\n` +
-            `General: 200\nRed Dot: 190\n2x Scope: 180\n4x Scope: 170\nAWM: 120\nGyro: ON\nAim Precision: Default`;
-    } else if(type === 'android'){
-      const sel = document.getElementById('androidModel')?.value || 'Android';
-      const model = sel === 'custom' ? document.getElementById('customAndroid').value || 'Android' : sel;
-      const dpi = document.getElementById('dpi')?.value || '200';
-      txt = `🤖 ${model} (${dpi} DPI) • OB51 Recommended Sensi\n\n` +
-            `General: 185\nRed Dot: 175\n2x Scope: 165\n4x Scope: 155\nAWM: 110\nGyro: ON\nGB: Enabled`;
-    } else if(type === 'others'){
-      const model = document.getElementById('otherDevice')?.value || 'Your Device';
-      txt = `🔥 ${model} • OB51 Recommended Sensi\n\n` +
-            `General: 170\nRed Dot: 160\n2x Scope: 150\n4x Scope: 140\nAWM: 100\nGyro: Optional`;
-    } else {
-      out.innerHTML = '⚠️ Please select a device first!';
-      return;
-    }
-    out.innerText = txt;
-  }
-
-  function copyOutput(){
-    const txt = document.getElementById('output').innerText;
-    if(!txt || txt.includes('Please select')) return alert('Choose a device and generate first');
-    navigator.clipboard?.writeText(txt).then(()=> {
-      alert('Copied to clipboard — open Free Fire settings and paste the numbers.');
-    }).catch(()=> {
-      alert('Copy failed — select the output text and copy manually.');
+document.getElementById('deviceType').addEventListener('change', function(){
+  const box=document.getElementById('deviceOptions');
+  box.innerHTML='';
+  if(this.value==='iphone'){
+    let html='<label>Select iPhone Model</label><select id="iphoneModel">';
+    iphones.forEach(m=>html+=`<option>${m}</option>`); html+='</select>';
+    box.innerHTML=html;
+  } else if(this.value==='android'){
+    let html='<label>Select Android Model</label><select id="androidModel">';
+    androids.forEach(m=>html+=`<option>${m}</option>`); 
+    html+='<option value="custom">Other (type below)</option></select>';
+    html+='<input id="customAndroid" placeholder="Enter device name" style="display:none;margin-top:10px;">';
+    html+='<label style="margin-top:10px;">DPI</label><select id="dpi"><option>150</option><option>200</option><option>250</option><option>299</option><option>399</option></select>';
+    box.innerHTML=html;
+    document.getElementById('androidModel').addEventListener('change',function(){
+      document.getElementById('customAndroid').style.display=this.value==='custom'?'block':'none';
     });
+  } else if(this.value==='others'){
+    box.innerHTML='<label>Enter Device Name</label><input id="otherDevice" placeholder="e.g. Tablet XYZ">';
   }
+});
 
-  function showAndroidInstructions(){
-    document.getElementById('instructions').innerHTML =
-      `<strong>Android (Chrome)</strong><br>
-       1) Open this site in Chrome.<br>
-       2) Tap the three dots ⋮ → Add to Home screen.<br>
-       3) Confirm name (TUNZY SOLOS) → Add.`;
+function showSettings(){
+  const type=document.getElementById('deviceType').value;
+  const out=document.getElementById('output');
+  let txt='';
+  if(type==='iphone'){
+    const model=document.getElementById('iphoneModel')?.value||'iPhone';
+    txt=`📱 ${model} • OB51 Recommended Sensi\n\nGeneral: 200\nRed Dot: 190\n2x Scope: 180\n4x Scope: 170\nAWM: 120\nGyro: ON`;
+  } else if(type==='android'){
+    const sel=document.getElementById('androidModel')?.value||'Android';
+    const model=sel==='custom'?document.getElementById('customAndroid').value||'Android':sel;
+    const dpi=document.getElementById('dpi')?.value||'200';
+    txt=`🤖 ${model} (${dpi} DPI) • OB51 Recommended Sensi\n\nGeneral: 185\nRed Dot: 175\n2x Scope: 165\n4x Scope: 155\nAWM: 110\nGyro: ON`;
+  } else if(type==='others'){
+    const model=document.getElementById('otherDevice')?.value||'Your Device';
+    txt=`🔥 ${model} • OB51 Recommended Sensi\n\nGeneral: 170\nRed Dot: 160\n2x Scope: 150\n4x Scope: 140\nAWM: 100\nGyro: Optional`;
+  } else {
+    out.innerText='⚠️ Please select a device first!';
+    return;
   }
-  function showIOSInstructions(){
-    document.getElementById('instructions').innerHTML =
-      `<strong>iPhone / iOS (Safari)</strong><br>
-       1) Open in Safari.<br>
-       2) Tap Share → Add to Home Screen.<br>
-       3) Confirm name → Add.`;
-  }
+  out.innerText=txt;
+}
 
-  function openShare(){
-    const url = location.href;
-    if(navigator.share){ navigator.share({title:'TUNZY SOLOS',text:'TUNZY SOLOS OB51 Sensi',url}); }
-    else { prompt('Copy & share this link', url); }
-  }
-
-  // ensure wallpaper shows immediately (small timing fix)
-  window.addEventListener('load', ()=> {
-    // small fade-in for cards so they stand out
-    document.querySelectorAll('.card').forEach(c=> c.style.opacity = 1);
-  });
+function copyOutput(){
+  const txt=document.getElementById('output').innerText;
+  if(!txt||txt.includes('Please select')) return alert('Choose and generate first');
+  navigator.clipboard.writeText(txt).then(()=>alert('Copied to clipboard ✅'));
+}
 </script>
 
 </body>
