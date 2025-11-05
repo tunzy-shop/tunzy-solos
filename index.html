@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TUNZY SOLOS – OB51 Sensi</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    body {
+      margin:0;
+      font-family:'Poppins', sans-serif;
+      color:#fff;
+      background: linear-gradient(120deg, #000814, #001d3d);
+      /* background image of Nero */
+      background-image: url('https://static.wikia.nocookie.net/freefire/images/a/a4/Kelly_HD.png'), url('https://someurl.com/nero_image.png');
+      background-position: left bottom, center top;
+      background-size: contain, cover;
+      background-repeat: no-repeat, no-repeat;
+      background-attachment: fixed;
+    }
+    header {
+      background: rgba(0,10,40,0.9);
+      padding:25px;
+      font-family:'Orbitron', sans-serif;
+      font-size:2.2em;
+      color:#00b4d8;
+      text-shadow:0 0 15px #00b4d8;
+      text-align:center;
+      border-bottom:2px solid #00b4d8;
+      letter-spacing:1px;
+    }
+    .container {
+      max-width:700px;
+      margin:40px auto;
+      background:rgba(0,0,0,0.85);
+      border-radius:20px;
+      padding:30px;
+      box-shadow:0 0 20px #00b4d8;
+    }
+    h2 {
+      color:#00b4d8;
+      text-shadow:0 0 8px #0096c7;
+    }
+    label, select, input {
+      display:block;
+      width:100%;
+      margin:12px 0;
+      font-size:1em;
+    }
+    select, input {
+      padding:12px;
+      border:none;
+      border-radius:10px;
+      outline:none;
+    }
+    button {
+      background:#00b4d8;
+      color:black;
+      border:none;
+      padding:14px 28px;
+      border-radius:10px;
+      font-weight:bold;
+      font-size:1em;
+      cursor:pointer;
+      margin-top:20px;
+      transition:0.3s;
+    }
+    button:hover {
+      background:#0096c7;
+      transform:scale(1.04);
+    }
+    #output {
+      margin-top:30px;
+      font-size:1.3em;
+      color:#90e0ef;
+      background:rgba(0,0,50,0.4);
+      padding:20px;
+      border-radius:10px;
+    }
+    .download-section {
+      margin-top:50px;
+      background:rgba(0,0,0,0.75);
+      padding:25px;
+      border-radius:15px;
+      box-shadow:0 0 15px #00b4d8;
+      text-align:center;
+    }
+    .download-btn {
+      display:inline-block;
+      margin:12px;
+      background:#0077b6;
+      color:white;
+      padding:14px 24px;
+      border-radius:10px;
+      text-decoration:none;
+      transition:0.3s;
+    }
+    .download-btn:hover {
+      background:#00b4d8;
+      color:black;
+    }
+    footer {
+      margin-top:60px;
+      background:rgba(0,0,30,0.9);
+      padding:30px;
+      text-align:center;
+      font-size:0.9em;
+      color:#caf0f8;
+      border-top:2px solid #00b4d8;
+    }
+    .contact {
+      background:#00b4d8;
+      color:black;
+      padding:12px 22px;
+      border-radius:10px;
+      text-decoration:none;
+      display:inline-block;
+      margin-top:10px;
+    }
+    .contact:hover {
+      background:#0077b6;
+      color:white;
+    }
+  </style>
+</head>
+
+<body>
+  <header>⚡ TUNZY SOLOS – OB51 SENSI ⚡</header>
+
+  <div class="container">
+    <h2>Free Fire OB51 Recommended Sensitivity</h2>
+
+    <label for="deviceType">Select Your Device:</label>
+    <select id="deviceType">
+      <option value="">-- Choose Device Type --</option>
+      <option value="iphone">iPhone</option>
+      <option value="android">Android</option>
+      <option value="others">Others</option>
+    </select>
+
+    <div id="deviceOptions"></div>
+
+    <button onclick="showSettings()">Get OB51 Sensitivity</button>
+
+    <div id="output"></div>
+  </div>
+
+  <div class="container download-section">
+    <h2>📲 Download / Install TUNZY SOLOS</h2>
+    <p>Install it like a real app on Android or iPhone!</p>
+
+    <a href="#" class="download-btn" onclick="showAndroidInstructions()">Android</a>
+    <a href="#" class="download-btn" onclick="showIOSInstructions()">iPhone (iOS)</a>
+
+    <div id="instructions"></div>
+  </div>
+
+  <footer>
+    <p>🔥 Designed by Tunzy Shop | OB51 Ready 🔥</p>
+    <a class="contact" href="https://wa.me/2349067345425" target="_blank">📞 Contact +234 906 734 5425</a>
+  </footer>
+
+<script>
+  const iphones = ["iPhone 6","iPhone 6s","iPhone 7","iPhone 8","iPhone X","iPhone 11","iPhone 12","iPhone 13","iPhone 14","iPhone 15"];
+  const androids = ["Samsung A14","Samsung A23","Samsung S23","Infinix Hot 11","Infinix Note 12","Tecno Camon 19","Tecno Spark 10","POCO X3","Xiaomi Redmi Note 12","Vivo Y20"];
+
+  document.getElementById('deviceType').addEventListener('change', function(){
+    const deviceType = this.value;
+    const optionsDiv = document.getElementById('deviceOptions');
+    optionsDiv.innerHTML = '';
+
+    if(deviceType === 'iphone') {
+      let select = '<label>Select iPhone Model:</label><select id="iphoneModel">';
+      iphones.forEach(model => select += `<option value="${model}">${model}</option>`);
+      select += '</select>';
+      optionsDiv.innerHTML = select;
+    }
+    else if(deviceType === 'android') {
+      let select = '<label>Select Android Device:</label><select id="androidModel">';
+      androids.forEach(model => select += `<option value="${model}">${model}</option>`);
+      select += '<option value="custom">Others (Type Yours Below)</option></select>';
+      select += '<input id="customAndroid" placeholder="Enter your device" style="display:none;margin-top:10px;padding:10px;border-radius:10px;">';
+      select += '<label style="margin-top:12px;">DPI:</label><select id="dpi"><option value="150">150 DPI</option><option value="200">200 DPI</option><option value="250">250 DPI</option></select>';
+      optionsDiv.innerHTML = select;
+
+      document.getElementById('androidModel').addEventListener('change', function(){
+        document.getElementById('customAndroid').style.display = this.value === 'custom' ? 'block' : 'none';
+      });
+    }
+    else if(deviceType === 'others') {
+      optionsDiv.innerHTML = '<input id="otherDevice" placeholder="Enter your device name" style="padding:10px;border-radius:10px;">';
+    }
+  });
+
+  function showSettings(){
+    const type = document.getElementById('deviceType').value;
+    const output = document.getElementById('output');
+    let text = '';
+
+    if(type === 'iphone'){
+      const model = document.getElementById('iphoneModel').value;
+      text = `📱 ${model} | OB51 Sensi<br><br>
+      🎯 General: 200<br>
+      🔴 Red Dot: 190<br>
+      🔭 2x Scope: 180<br>
+      🧠 4x Scope: 170<br>
+      🎯 AWM: 120<br>
+      ⚙️ Aim Precision: Default<br>
+      🌀 Gyro: ON`;
+    }
+    else if(type === 'android'){
+      const modelSel = document.getElementById('androidModel').value;
+      const model = modelSel === 'custom' ? document.getElementById('customAndroid').value : modelSel;
+      const dpi = document.getElementById('dpi').value;
+      text = `🤖 ${model || 'Your Android'} (${dpi} DPI) | OB51 Sensi<br><br>
+      🎯 General: 185<br>
+      🔴 Red Dot: 175<br>
+      🔭 2x Scope: 165<br>
+      🧠 4x Scope: 155<br>
+      🎯 AWM: 110<br>
+      ⚙️ GB: Enabled<br>
+      🌀 Gyro: ON`;
+    }
+    else if(type === 'others'){
+      const device = document.getElementById('otherDevice').value;
+      text = `🔥 ${device || 'Your Device'} | OB51 Sensi<br><br>
+      🎯 General: 170<br>
+      🔴 Red Dot: 160<br>
+      🔭 2x Scope: 150<br>
+      🧠 4x Scope: 140<br>
+      🎯 AWM: 100<br>
+      🌀 Gyro: Optional`;
+    }
+    else {
+      text = '⚠️ Please select your device first!';
+    }
+
+    output.innerHTML = text;
+  }
+
+  function showAndroidInstructions(){
+    document.getElementById('instructions').innerHTML = `
+      <h3>📱 Android Installation</h3>
+      <p>1️⃣ Tap the <b>three dots ⋮</b> in the top-right (Chrome/Browser).<br>
+         2️⃣ Select <b>"Add to Home screen"</b>.<br>
+         3️⃣ Confirm <b>TUNZY SOLOS</b> and press <b>Add</b>.<br>
+         ✅ Now open it from your home screen — it acts like an app!</p>`;
+  }
+
+  function showIOSInstructions(){
+    document.getElementById('instructions').innerHTML = `
+      <h3>🍎 iPhone / iOS Installation</h3>
+      <p>1️⃣ Tap the <b>Share</b> icon (square with arrow).<br>
+         2️⃣ Scroll down and select <b>"Add to Home Screen"</b>.<br>
+         3️⃣ Confirm the name <b>TUNZY SOLOS</b> and tap <b>Add</b>.<br>
+         ✅ The icon appears on your iPhone home screen like an app!</p>`;
+  }
+</script>
+
+</body>
+</html>
