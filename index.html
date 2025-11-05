@@ -17,81 +17,125 @@
   }
 
   *{box-sizing:border-box}
-  html,body{height:100%;margin:0;font-family:'Poppins',sans-serif;color:#fff;background:#000}
+  html,body{height:100%;margin:0;font-family:'Poppins',sans-serif;color:#fff;background:#000;overflow-x:hidden}
   a{color:inherit;text-decoration:none}
 
-  /* full-screen background slides (wallpaper style) */
-  .bg-wrap{position:fixed;inset:0;z-index:-3;overflow:hidden}
-  .bg-slide{
-    position:absolute;inset:0;background-position:center center;background-size:cover;
-    opacity:0;transform:scale(1.02);transition:opacity 1s ease,transform 8s linear;
-    filter: contrast(0.98) saturate(1.05);
+  /* --- single combined wallpaper using layered images --- */
+  .wallpaper{
+    position:fixed;
+    inset:0;
+    z-index:-4;
+    overflow:hidden;
+    background: linear-gradient(180deg, rgba(0,0,0,0.12), rgba(0,0,0,0.45));
   }
-  .bg-slide.show{opacity:1;transform:scale(1)}
-  .bg-overlay{position:fixed;inset:0;background:linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.6));z-index:-2}
 
-  /* header */
-  header{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;background:linear-gradient(90deg, rgba(0,0,0,0.25), rgba(0,0,0,0.18));border-bottom:1px solid rgba(0,180,216,0.12);backdrop-filter:blur(4px)}
+  /* left: Kelly */
+  .wall-left{
+    position:absolute;left:-6%;top:4%;
+    width:42%;height:100%;
+    background-image:url('https://dl.dir.freefiremobile.com/common/web_event/official2.ff.garena.all/202311/a80ef2744fa83dc119cc09249d70444e.png');
+    background-position:left bottom;
+    background-size:cover;
+    filter:brightness(0.95) saturate(1.05) contrast(1.02);
+    transform:translateZ(0);
+    -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.08) 85%, rgba(0,0,0,0) 100%);
+    mask-image: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.08) 85%, rgba(0,0,0,0) 100%);
+  }
+
+  /* center: Orion */
+  .wall-center{
+    position:absolute;left:28%;top:-4%;
+    width:44%;height:110%;
+    background-image:url('https://dl.dir.freefiremobile.com/common/web_event/official2.ff.garena.all/20238/4f4fc6c6d43fc3bb5ef4617f9f5340f7.png');
+    background-position:center bottom;
+    background-size:cover;
+    filter:brightness(0.9) saturate(1.02) contrast(1.05);
+    transform:translateZ(0);
+    -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,0.12) 5%, rgba(0,0,0,1) 100%);
+    mask-image: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,0.12) 5%, rgba(0,0,0,1) 100%);
+  }
+
+  /* right: Maxim */
+  .wall-right{
+    position:absolute;right:-6%;top:6%;
+    width:42%;height:100%;
+    background-image:url('https://freefiremobile-a.akamaihd.net/common/web_event/official2.ff.garena.all/img/20228/59dc42433e877fa0cc3bb69b74dbf2c8.png');
+    background-position:right bottom;
+    background-size:cover;
+    filter:brightness(0.95) saturate(1.06) contrast(1.03);
+    transform:translateZ(0);
+    -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,0.08) 85%, rgba(0,0,0,0) 100%);
+    mask-image: linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,0.08) 85%, rgba(0,0,0,0) 100%);
+  }
+
+  /* soft global vignette and glow */
+  .wallpaper::after{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(60% 60% at 50% 55%, rgba(0,180,216,0.06), rgba(0,0,0,0.7));
+    pointer-events:none;
+  }
+
+  /* glowing banner (over Maxim) */
+  .tunzy-banner{
+    position:fixed;
+    right:7vw;
+    top:58vh;
+    transform:translateY(-50%);
+    z-index:-1; /* keep behind cards but above wallpaper; cards will have higher z-index */
+    pointer-events:none;
+    font-family:'Orbitron',sans-serif;
+    font-weight:800;
+    letter-spacing:2px;
+    font-size:28px;
+    padding:12px 22px;
+    border-radius:10px;
+    color:#001b21;
+    background:linear-gradient(90deg,#9ff0ff,#00b4d8);
+    box-shadow: 0 10px 40px rgba(0,180,216,0.25), 0 2px 8px rgba(0,0,0,0.6);
+    text-align:center;
+  }
+  @media(max-width:880px){
+    .tunzy-banner{right:6vw;top:62vh;font-size:18px;padding:8px 14px}
+  }
+
+  /* header / site content styling (above wallpaper) */
+  header{position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:18px 20px;background:linear-gradient(90deg, rgba(0,0,0,0.20), rgba(0,0,0,0.12));border-bottom:1px solid rgba(0,180,216,0.06);backdrop-filter:blur(4px)}
   .brand{display:flex;gap:12px;align-items:center}
   .logo{background:linear-gradient(90deg,var(--accent),#0077b6);-webkit-background-clip:text;background-clip:text;color:transparent;font-family:'Orbitron',sans-serif;font-size:1.4rem;letter-spacing:1px}
   .tag{font-size:0.9rem;color:#cfeff6;opacity:0.95}
 
-  /* layout */
-  .wrap{max-width:980px;margin:32px auto;padding:18px;display:grid;grid-template-columns:1fr;gap:18px}
+  .wrap{position:relative;z-index:11;max-width:980px;margin:32px auto;padding:18px;display:grid;grid-template-columns:1fr;gap:18px}
   .card{background:var(--card-bg);border-radius:16px;padding:18px;box-shadow:0 8px 30px rgba(0,0,0,0.5);border:1px solid rgba(0,180,216,0.06)}
-  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
   label{display:block;font-weight:600;color:#bfeff8;margin-bottom:6px}
   select,input{width:100%;padding:12px;border-radius:10px;border:none;background:rgba(255,255,255,0.03);color:#fff}
   button.primary{background:var(--accent);color:#000;padding:12px 18px;border-radius:10px;border:none;font-weight:700;cursor:pointer;box-shadow:0 6px 18px rgba(0,180,216,0.08)}
   button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:10px 14px;border-radius:10px;color:#dff7ff}
   .muted{color:#bfeff8;opacity:0.9}
 
-  #output{margin-top:14px;padding:14px;border-radius:10px;background:linear-gradient(180deg, rgba(0,0,50,0.18), rgba(0,0,60,0.3));color:#dff7ff;font-weight:600;white-space:pre-line}
+  #output{margin-top:14px;padding:14px;border-radius:10px;background:linear-gradient(180deg, rgba(0,0,50,0.18), rgba(0,0,60,0.32));color:#dff7ff;font-weight:600;white-space:pre-line}
 
   .download-row{text-align:center;padding:14px;border-radius:12px;background:linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0.6));}
   .download-btn{display:inline-block;margin:8px;padding:10px 16px;border-radius:10px;background:#004f67;color:#fff;font-weight:700}
 
-  footer{margin:30px auto 60px;text-align:center;color:#bfeff8;opacity:0.95}
+  footer{position:relative;z-index:11;margin:30px auto 60px;text-align:center;color:#bfeff8;opacity:0.95}
 
   /* responsive: two column on wide screens */
-  @media(min-width:880px){
-    .wrap{grid-template-columns:430px 1fr;align-items:start}
-  }
-  @media(max-width:480px){
-    header{padding:12px}
-    .logo{font-size:1.2rem}
-    .wrap{margin:18px}
-  }
-
-  /* special decorative overlay text near right (Maxim holding 'TUNZY SENSI') */
-  .maxim-sign{
-    position:fixed;right:6vw;top:54vh;transform:translateY(-50%);z-index:0;
-    background:linear-gradient(90deg,rgba(0,180,216,0.95),rgba(0,120,180,0.95));
-    color:#000;padding:10px 18px;border-radius:8px;font-weight:800;font-family:'Orbitron',sans-serif;letter-spacing:1px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.6);opacity:0.95;
-    pointer-events:none;
-  }
-  /* small fade for mobile */
-  @media(max-width:480px){ .maxim-sign{right:4vw;top:60vh;padding:8px 12px;font-size:14px} }
+  @media(min-width:880px){ .wrap{grid-template-columns:430px 1fr;align-items:start} }
+  @media(max-width:480px){ header{padding:12px} .logo{font-size:1.2rem} .wrap{margin:18px} .wall-left,.wall-center,.wall-right{display:none} .wallpaper{background:black} .tunzy-banner{display:none} }
 
 </style>
 </head>
 <body>
 
-  <!-- background slideshow with full wallpaper images (already set to official Free Fire images) -->
-  <div class="bg-wrap" aria-hidden="true">
-    <!-- Kelly full wallpaper (official PNG) -->
-    <div id="slide1" class="bg-slide" style="background-image:url('https://dl.dir.freefiremobile.com/common/web_event/official2.ff.garena.all/202311/a80ef2744fa83dc119cc09249d70444e.png');"></div>
-    <!-- Maxim full wallpaper (official PNG) -->
-    <div id="slide2" class="bg-slide" style="background-image:url('https://freefiremobile-a.akamaihd.net/common/web_event/official2.ff.garena.all/img/20228/59dc42433e877fa0cc3bb69b74dbf2c8.png');"></div>
-    <!-- Orion full wallpaper (official PNG) -->
-    <div id="slide3" class="bg-slide" style="background-image:url('https://dl.dir.freefiremobile.com/common/web_event/official2.ff.garena.all/20238/4f4fc6c6d43fc3bb5ef4617f9f5340f7.png');"></div>
-
-    <div class="bg-overlay"></div>
+  <!-- combined wallpaper layers -->
+  <div class="wallpaper" aria-hidden="true">
+    <div class="wall-left" aria-hidden="true"></div>
+    <div class="wall-center" aria-hidden="true"></div>
+    <div class="wall-right" aria-hidden="true"></div>
   </div>
 
-  <!-- decorative 'Maxim holding sign' overlay (looks like he's holding the TUNZY SENSI sign) -->
-  <div class="maxim-sign">TUNZY SENSI</div>
+  <!-- TUNZY SENSI banner (styled to look like Maxim holding it) -->
+  <div class="tunzy-banner">TUNZY SENSI</div>
 
   <header>
     <div class="brand">
@@ -154,20 +198,7 @@
   </footer>
 
 <script>
-  // background slideshow logic
-  const slides = [
-    document.getElementById('slide1'),
-    document.getElementById('slide2'),
-    document.getElementById('slide3')
-  ];
-  let current = 0;
-  function showSlide(i){
-    slides.forEach((s, idx) => s.classList.toggle('show', idx === i));
-  }
-  showSlide(0);
-  setInterval(()=>{ current=(current+1)%slides.length; showSlide(current); }, 6000); // change every 6s
-
-  // device lists
+  // sensitivity generator + UI logic (same as before)
   const iphones = ["iPhone 8","iPhone X","iPhone XR","iPhone 11","iPhone 12","iPhone 13","iPhone 14","iPhone 15"];
   const androids = ["Samsung S20","Samsung S22","Samsung S23","Infinix Hot 11","Infinix Note 12","Tecno Camon 19","Xiaomi Redmi Note 12","POCO X3","Vivo Y20","Samsung A14","Samsung A23"];
 
@@ -193,7 +224,6 @@
     }
   });
 
-  // sensitivity generator (OB51 recommended values, 100-200 style)
   function showSettings(){
     const type = document.getElementById('deviceType').value;
     const out = document.getElementById('output');
@@ -216,10 +246,9 @@
       out.innerHTML = '⚠️ Please select a device first!';
       return;
     }
-    out.innerHTML = txt;
+    out.innerText = txt;
   }
 
-  // copy to clipboard
   function copyOutput(){
     const txt = document.getElementById('output').innerText;
     if(!txt || txt.includes('Please select')) return alert('Choose a device and generate first');
@@ -230,7 +259,6 @@
     });
   }
 
-  // install instructions
   function showAndroidInstructions(){
     document.getElementById('instructions').innerHTML =
       `<strong>Android (Chrome)</strong><br>
@@ -246,18 +274,17 @@
        3) Confirm name → Add.`;
   }
 
-  // share
   function openShare(){
     const url = location.href;
-    if(navigator.share){
-      navigator.share({title:'TUNZY SOLOS',text:'TUNZY SOLOS OB51 Sensi',url});
-    } else {
-      prompt('Copy & share this link', url);
-    }
+    if(navigator.share){ navigator.share({title:'TUNZY SOLOS',text:'TUNZY SOLOS OB51 Sensi',url}); }
+    else { prompt('Copy & share this link', url); }
   }
 
-  // ensure first slide shows on load
-  window.addEventListener('load', ()=> setTimeout(()=> showSlide(0),50));
+  // ensure wallpaper shows immediately (small timing fix)
+  window.addEventListener('load', ()=> {
+    // small fade-in for cards so they stand out
+    document.querySelectorAll('.card').forEach(c=> c.style.opacity = 1);
+  });
 </script>
 
 </body>
