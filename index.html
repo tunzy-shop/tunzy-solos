@@ -1,261 +1,187 @@
-<!doctype html>
+<!--
+Project: TUNZY SENSI V3 (installable PWA)
+Files included in this single document for easy copying:
+- index.html
+- manifest.json
+- sw.js
+
+Instructions: copy each file into your site root. Host on static hosting (GitHub Pages, Netlify, Vercel, etc.).
+--><!-- ==================== index.html ==================== --><!doctype html>
+
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>TUNZY SENSI V3 – OB51</title>
-<link rel="icon" href="" />
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TUNZY SHOP V3 — TUNZY SENSI</title>
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#001219" />
+  <link rel="icon" href="https://dl.dir.freefiremobile.com/common/web_event/official2.ff.garena.all/202311/a80ef2744fa83dc119cc09249d70444e.png">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+    :root{--accent:#00b4d8;--bg:#000;--card:rgba(0,0,0,0.6)}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Poppins',sans-serif;background:var(--bg);color:#fff;min-height:100vh}/* full-screen hero area showing characters with heads visible */
+.hero{
+  position:relative;overflow:hidden;height:56vh;min-height:320px;display:flex;align-items:flex-start;justify-content:center;background:linear-gradient(180deg, rgba(0,0,0,0.15), rgba(0,0,0,0.6));
+}
 
-  :root{
-    --accent:#00b4d8;
-    --dark-bg:#000;
-    --glow:#00e0ff;
-  }
+/* left character (Kelly) */
+.hero .left,
+.hero .center,
+.hero .right,
+.hero .right-kelly{
+  position:absolute;bottom:-6%;width:40%;height:120%;background-size:contain;background-repeat:no-repeat;background-position:center top;filter:brightness(1.05) saturate(1.08);
+}
+.hero .left{left:-6%;background-image:url('https://dl.dir.freefiremobile.com/common/web_event/official2.ff.garena.all/202311/a80ef2744fa83dc119cc09249d70444e.png')}
+.hero .center{left:28%;width:44%;bottom:-10%;height:130%;background-image:url('https://dl.dir.freefiremobile.com/common/web_event/official2.ff.garena.all/20238/4f4fc6c6d43fc3bb5ef4617f9f5340f7.png');filter:brightness(1.08)}
+.hero .right{right:-8%;background-image:url('https://freefiremobile-a.akamaihd.net/common/web_event/official2.ff.garena.all/img/20228/59dc42433e877fa0cc3bb69b74dbf2c8.png')}
+/* duplicate Kelly on right but mirrored and slightly scaled to fit heads */
+.hero .right-kelly{right:-18%;width:52%;height:130%;background-image:url('https://dl.dir.freefiremobile.com/common/web_event/official2.ff.garena.all/202311/a80ef2744fa83dc119cc09249d70444e.png');transform:scaleX(-1);filter:brightness(1.12) saturate(1.12)}
 
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{
-    font-family:'Poppins',sans-serif;
-    background:var(--dark-bg);
-    color:#fff;
-    overflow-x:hidden;
-  }
+/* overlay app preview card showing Kelly + Orion and branding text */
+.app-preview{
+  position:relative;z-index:6;margin: -40px auto 0;border-radius:16px;max-width:980px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:0 18px 60px rgba(0,0,0,0.6);overflow:clip;border:1px solid rgba(255,255,255,0.04);
+  display:flex;gap:18px;padding:18px;align-items:center
+}
+.preview-image{
+  width:36%;min-width:220px;height:220px;border-radius:12px;background-size:cover;background-position:center center;position:relative;flex-shrink:0;overflow:hidden
+}
+/* create a composed image (Kelly + Orion) by using a stacked background via linear-gradient/fallback */
+.preview-image.kelly-orion{background-image: url('https://dl.dir.freefiremobile.com/common/web_event/official2.ff.garena.all/202311/a80ef2744fa83dc119cc09249d70444e.png');}
+.preview-image::after{content:"";position:absolute;inset:0;background-image:url('https://dl.dir.freefiremobile.com/common/web_event/official2.ff.garena.all/20238/4f4fc6c6d43fc3bb5ef4617f9f5340f7.png');background-size:contain;background-repeat:no-repeat;background-position:right bottom;opacity:0.95;mix-blend-mode:normal}
 
-  /* ==== Wallpaper Characters ==== */
-  .wallpaper{
-    position:fixed;
-    inset:0;
-    z-index:-5;
-    overflow:hidden;
-    background:radial-gradient(circle at center, rgba(0,0,0,0.2), #000 80%);
-  }
+/* Title text overlay on preview */
+.preview-label{position:absolute;left:10px;bottom:10px;font-family:'Orbitron',sans-serif;font-weight:800;font-size:20px;padding:6px 10px;border-radius:8px;background:linear-gradient(90deg,#00e0ff,#00b4d8);color:#00121a;box-shadow:0 8px 30px rgba(0,180,216,0.15)}
 
-  /* Kelly (Left) */
-  .kelly-left, .kelly-right, .orion, .maxim{
-    position:absolute;
-    background-size:cover;
-    background-repeat:no-repeat;
-    background-position:center bottom;
-    filter:brightness(1.15) saturate(1.1) contrast(1.05);
-  }
+/* content area for generator */
+main{position:relative;z-index:7;max-width:980px;margin:18px auto;padding:22px}
+.card{background:var(--card);padding:18px;border-radius:12px}
 
-  .kelly-left{
-    left:-6%;bottom:0;width:40%;height:100%;
-    background-image:url('https://dl.dir.freefiremobile.com/common/web_event/official2.ff.garena.all/202311/a80ef2744fa83dc119cc09249d70444e.png');
-  }
+label{display:block;margin-bottom:6px;color:#9eefff;font-weight:600}
+select,input{width:100%;padding:12px;border-radius:10px;border:none;background:rgba(255,255,255,0.03);color:#fff}
+.row{display:flex;gap:10px;margin-top:12px}
+button{padding:12px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:700}
+.primary{background:var(--accent);color:#000}
+.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:#dff7ff}
+#output{margin-top:12px;padding:12px;border-radius:8px;background:linear-gradient(180deg, rgba(0,0,50,0.16), rgba(0,0,60,0.28));color:#dff7ff}
 
-  /* Orion (center) */
-  .orion{
-    left:28%;bottom:-4%;width:44%;height:110%;
-    background-image:url('https://dl.dir.freefiremobile.com/common/web_event/official2.ff.garena.all/20238/4f4fc6c6d43fc3bb5ef4617f9f5340f7.png');
-    filter:brightness(1.08) saturate(1.1);
-  }
+/* install prompt bar */
+.install-bar{position:fixed;left:12px;right:12px;bottom:18px;background:linear-gradient(90deg,#00e0ff,#00b4d8);color:#00121a;padding:10px 12px;border-radius:12px;display:flex;align-items:center;gap:12px;justify-content:space-between;z-index:999}
+.install-bar .info{font-weight:700}
+.install-bar button{background:#00121a;color:#00e0ff;border-radius:8px;padding:8px 12px;border:none;font-weight:800}
 
-  /* Maxim (right) */
-  .maxim{
-    right:-8%;bottom:0;width:40%;height:100%;
-    background-image:url('https://freefiremobile-a.akamaihd.net/common/web_event/official2.ff.garena.all/img/20228/59dc42433e877fa0cc3bb69b74dbf2c8.png');
-    filter:brightness(1.1) saturate(1.15);
-  }
+footer{color:#bfeff8;text-align:center;margin:26px 0 80px}
 
-  /* Kelly duplicate on right */
-  .kelly-right{
-    right:-18%;bottom:0;width:50%;height:100%;
-    background-image:url('https://dl.dir.freefiremobile.com/common/web_event/official2.ff.garena.all/202311/a80ef2744fa83dc119cc09249d70444e.png');
-    transform:scaleX(-1);
-    opacity:0.9;
-    filter:brightness(1.2) saturate(1.2);
-  }
+@media(max-width:720px){
+  .hero{height:44vh}
+  .preview-image{display:none}
+  .app-preview{margin-top:-20px;padding:12px}
+  .hero .left,.hero .right,.hero .center,.hero .right-kelly{opacity:0.65;bottom:-2%}
+}
 
-  /* Global glow overlay */
-  .wallpaper::after{
-    content:"";
-    position:absolute;inset:0;
-    background:radial-gradient(circle at 50% 55%, rgba(0,255,255,0.08), rgba(0,0,0,0.85));
-  }
-
-  /* ==== Header Title ==== */
-  header{
-    position:relative;
-    z-index:10;
-    text-align:center;
-    padding:22px 10px;
-    background:rgba(0,0,0,0.55);
-    backdrop-filter:blur(6px);
-    border-bottom:1px solid rgba(255,255,255,0.08);
-  }
-  header h1{
-    font-family:'Orbitron',sans-serif;
-    font-size:2rem;
-    letter-spacing:2px;
-    background:linear-gradient(90deg,#00e0ff,#00b4d8,#00e0ff);
-    -webkit-background-clip:text;
-    color:transparent;
-    text-shadow:0 0 15px rgba(0,180,216,0.7);
-  }
-  header p{
-    font-size:1rem;
-    color:#cce7ef;
-    margin-top:6px;
-  }
-
-  /* ==== Main Card ==== */
-  main{
-    position:relative;
-    z-index:11;
-    max-width:900px;
-    margin:40px auto;
-    padding:18px;
-    background:rgba(0,0,0,0.7);
-    border-radius:16px;
-    box-shadow:0 0 20px rgba(0,180,216,0.2);
-  }
-
-  label{display:block;margin:10px 0 6px;font-weight:600;color:#9cecff}
-  select,input{
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:10px;
-    background:rgba(255,255,255,0.1);
-    color:#fff;
-  }
-
-  button{
-    margin-top:14px;
-    padding:12px 20px;
-    border:none;
-    border-radius:10px;
-    cursor:pointer;
-    font-weight:700;
-  }
-  .primary{
-    background:var(--accent);
-    color:#000;
-  }
-  .ghost{
-    background:transparent;
-    border:1px solid rgba(255,255,255,0.3);
-    color:#fff;
-  }
-
-  #output{
-    margin-top:20px;
-    padding:14px;
-    border-radius:10px;
-    background:rgba(0,0,50,0.3);
-    color:#aefcff;
-    font-weight:600;
-    white-space:pre-line;
-  }
-
-  footer{
-    text-align:center;
-    margin:30px 0;
-    color:#9cecff;
-    font-size:0.9rem;
-  }
-
-  @media(max-width:700px){
-    header h1{font-size:1.5rem;}
-    .kelly-left,.kelly-right,.maxim,.orion{opacity:0.3;}
-  }
-</style>
+  </style>
 </head>
-<body>
+<body>  <!-- HERO (characters) -->  <section class="hero" aria-hidden="true">
+    <div class="left"></div>
+    <div class="center"></div>
+    <div class="right"></div>
+    <div class="right-kelly"></div>
+  </section>  <!-- App preview card (shows images + "TUNZY SHOP V3") -->  <div class="app-preview">
+    <div class="preview-image kelly-orion" role="img" aria-label="Kelly and Orion preview">
+      <div class="preview-label">TUNZY SHOP V3</div>
+    </div><div style="flex:1">
+  <h2 style="margin:0 0 8px;font-family:'Orbitron',sans-serif;color:var(--accent)">TUNZY SHOP V3 — OB51 Sensi</h2>
+  <p style="color:#cfeff6;margin-bottom:12px">Tap <strong>Install</strong> (bottom) to add this to your home screen and use like an app. The preview shows Kelly + Orion and your brand text.</p>
 
-<!-- === Visible Wallpaper Layer === -->
-<div class="wallpaper">
-  <div class="kelly-left"></div>
-  <div class="orion"></div>
-  <div class="maxim"></div>
-  <div class="kelly-right"></div>
+  <div class="card">
+    <label for="deviceType">Select Your Device</label>
+    <select id="deviceType">
+      <option value="">-- Choose Device Type --</option>
+      <option value="iphone">iPhone</option>
+      <option value="android">Android</option>
+      <option value="others">Others</option>
+    </select>
+
+    <div id="deviceOptions" style="margin-top:10px"></div>
+
+    <div class="row">
+      <button class="primary" onclick="showSettings()">Get OB51 Sensi</button>
+      <button class="ghost" onclick="copyOutput()">Copy To Clipboard</button>
+    </div>
+
+    <div id="output" style="margin-top:12px">Choose a device and tap <strong>Get OB51 Sensi</strong></div>
+
+  </div>
 </div>
 
-<!-- === Header / Title === -->
-<header>
-  <h1>TUNZY SENSI V3</h1>
-  <p>OB51 • Tunzy Shop • Free Fire Sensitivity Generator</p>
-</header>
+  </div>  <!-- install bar (hidden until browser fires beforeinstallprompt) -->  <div class="install-bar" id="installBar" style="display:none">
+    <div class="info">Install TUNZY SHOP V3</div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button id="installBtn">Install</button>
+      <button id="dismissInstall" style="background:transparent;color:#00121a;border-radius:8px;padding:8px 10px;background:#ffffff44">Close</button>
+    </div>
+  </div>  <main>
+    <div style="max-width:980px;margin:0 auto">
+      <p style="color:#9feaff;margin-bottom:8px">Tip: On Android use Chrome to see the install bar. On iPhone, use Safari and tap Share → Add to Home Screen.</p>
+    </div>
+  </main>  <footer>© TUNZY SHOP V3 • Tunzy Shop</footer>  <script>
+    // device UI
+    const iphones = ["iPhone 8","iPhone X","iPhone 11","iPhone 12","iPhone 13","iPhone 14","iPhone 15"];
+    const androids = ["Infinix Hot 11","Infinix Note 12","Tecno Camon 19","Samsung A23","Samsung S23","Vivo Y20","POCO X3","Redmi Note 12"];
 
-<!-- === Main Section === -->
-<main>
-  <label for="deviceType">Select Your Device</label>
-  <select id="deviceType">
-    <option value="">-- Choose Device Type --</option>
-    <option value="iphone">iPhone</option>
-    <option value="android">Android</option>
-    <option value="others">Others</option>
-  </select>
-
-  <div id="deviceOptions"></div>
-
-  <button class="primary" onclick="showSettings()">Get OB51 Sensi</button>
-  <button class="ghost" onclick="copyOutput()">Copy To Clipboard</button>
-
-  <div id="output">Choose a device and tap <strong>Get OB51 Sensi</strong></div>
-</main>
-
-<footer>
-  © 2025 TUNZY SENSI V3 — Designed by Tunzy Shop
-</footer>
-
-<script>
-const iphones = ["iPhone 8","iPhone X","iPhone 11","iPhone 12","iPhone 13","iPhone 14","iPhone 15"];
-const androids = ["Infinix Hot 11","Infinix Note 12","Tecno Camon 19","Samsung A23","Samsung S23","Vivo Y20","POCO X3","Redmi Note 12"];
-
-document.getElementById('deviceType').addEventListener('change', function(){
-  const box=document.getElementById('deviceOptions');
-  box.innerHTML='';
-  if(this.value==='iphone'){
-    let html='<label>Select iPhone Model</label><select id="iphoneModel">';
-    iphones.forEach(m=>html+=`<option>${m}</option>`); html+='</select>';
-    box.innerHTML=html;
-  } else if(this.value==='android'){
-    let html='<label>Select Android Model</label><select id="androidModel">';
-    androids.forEach(m=>html+=`<option>${m}</option>`); 
-    html+='<option value="custom">Other (type below)</option></select>';
-    html+='<input id="customAndroid" placeholder="Enter device name" style="display:none;margin-top:10px;">';
-    html+='<label style="margin-top:10px;">DPI</label><select id="dpi"><option>150</option><option>200</option><option>250</option><option>299</option><option>399</option></select>';
-    box.innerHTML=html;
-    document.getElementById('androidModel').addEventListener('change',function(){
-      document.getElementById('customAndroid').style.display=this.value==='custom'?'block':'none';
+    document.getElementById('deviceType').addEventListener('change', function(){
+      const box=document.getElementById('deviceOptions'); box.innerHTML='';
+      if(this.value==='iphone'){
+        let html='<label>Select iPhone Model</label><select id="iphoneModel">'; iphones.forEach(m=>html+=`<option>${m}</option>`); html+='</select>'; box.innerHTML=html;
+      } else if(this.value==='android'){
+        let html='<label>Select Android Model</label><select id="androidModel">'; androids.forEach(m=>html+=`<option>${m}</option>`); html+='<option value="custom">Other (type below)</option></select>'; html+='<input id="customAndroid" placeholder="Enter device name" style="display:none;margin-top:10px;padding:10px;border-radius:10px">'; html+='<label style="margin-top:10px;display:block">DPI</label><select id="dpi"><option>150</option><option>200</option><option>250</option><option>299</option><option>399</option></select>'; box.innerHTML=html; document.getElementById('androidModel').addEventListener('change',function(){ document.getElementById('customAndroid').style.display=this.value==='custom'?'block':'none'; });
+      } else if(this.value==='others'){
+        box.innerHTML='<label>Enter Device Name</label><input id="otherDevice" placeholder="e.g. Tablet XYZ" style="padding:10px;border-radius:10px">';
+      }
     });
-  } else if(this.value==='others'){
-    box.innerHTML='<label>Enter Device Name</label><input id="otherDevice" placeholder="e.g. Tablet XYZ">';
-  }
-});
 
-function showSettings(){
-  const type=document.getElementById('deviceType').value;
-  const out=document.getElementById('output');
-  let txt='';
-  if(type==='iphone'){
-    const model=document.getElementById('iphoneModel')?.value||'iPhone';
-    txt=`📱 ${model} • OB51 Recommended Sensi\n\nGeneral: 200\nRed Dot: 190\n2x Scope: 180\n4x Scope: 170\nAWM: 120\nGyro: ON`;
-  } else if(type==='android'){
-    const sel=document.getElementById('androidModel')?.value||'Android';
-    const model=sel==='custom'?document.getElementById('customAndroid').value||'Android':sel;
-    const dpi=document.getElementById('dpi')?.value||'200';
-    txt=`🤖 ${model} (${dpi} DPI) • OB51 Recommended Sensi\n\nGeneral: 185\nRed Dot: 175\n2x Scope: 165\n4x Scope: 155\nAWM: 110\nGyro: ON`;
-  } else if(type==='others'){
-    const model=document.getElementById('otherDevice')?.value||'Your Device';
-    txt=`🔥 ${model} • OB51 Recommended Sensi\n\nGeneral: 170\nRed Dot: 160\n2x Scope: 150\n4x Scope: 140\nAWM: 100\nGyro: Optional`;
-  } else {
-    out.innerText='⚠️ Please select a device first!';
-    return;
-  }
-  out.innerText=txt;
-}
+    function showSettings(){
+      const type=document.getElementById('deviceType').value; const out=document.getElementById('output'); let txt='';
+      if(type==='iphone'){ const model=document.getElementById('iphoneModel')?.value||'iPhone'; txt=`📱 ${model} • OB51 Recommended Sensi\n\nGeneral: 200\nRed Dot: 190\n2x Scope: 180\n4x Scope: 170\nAWM: 120\nGyro: ON`; }
+      else if(type==='android'){ const sel=document.getElementById('androidModel')?.value||'Android'; const model=sel==='custom'?document.getElementById('customAndroid').value||'Android':sel; const dpi=document.getElementById('dpi')?.value||'200'; txt=`🤖 ${model} (${dpi} DPI) • OB51 Recommended Sensi\n\nGeneral: 185\nRed Dot: 175\n2x Scope: 165\n4x Scope: 155\nAWM: 110\nGyro: ON`; }
+      else if(type==='others'){ const model=document.getElementById('otherDevice')?.value||'Your Device'; txt=`🔥 ${model} • OB51 Recommended Sensi\n\nGeneral: 170\nRed Dot: 160\n2x Scope: 150\n4x Scope: 140\nAWM: 100\nGyro: Optional`; }
+      else { out.innerText='⚠️ Please select a device first!'; return; }
+      out.innerText=txt;
+    }
+    function copyOutput(){ const txt=document.getElementById('output').innerText; if(!txt||txt.includes('Please select')) return alert('Choose and generate first'); navigator.clipboard.writeText(txt).then(()=>alert('Copied to clipboard ✅')).catch(()=>alert('Copy failed — select & copy manually')) }
 
-function copyOutput(){
-  const txt=document.getElementById('output').innerText;
-  if(!txt||txt.includes('Please select')) return alert('Choose and generate first');
-  navigator.clipboard.writeText(txt).then(()=>alert('Copied to clipboard ✅'));
-}
-</script>
+    // PWA install prompt handling
+    let deferredPrompt;
+    const installBar = document.getElementById('installBar');
+    const installBtn = document.getElementById('installBtn');
+    const dismissBtn = document.getElementById('dismissInstall');
 
-</body>
-</html>
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBar.style.display = 'flex';
+    });
+
+    installBtn.addEventListener('click', async () => {
+      if(!deferredPrompt) return; installBtn.disabled = true;
+      deferredPrompt.prompt();
+      const choice = await deferredPrompt.userChoice;
+      if(choice.outcome === 'accepted'){
+        installBar.style.display = 'none'; deferredPrompt = null;
+      } else { installBtn.disabled = false }
+    });
+    dismissBtn.addEventListener('click', ()=> installBar.style.display='none');
+
+    // register service worker
+    if('serviceWorker' in navigator){
+      navigator.serviceWorker.register('/sw.js').then(()=>console.log('SW registered')).catch(()=>console.log('SW fail'))
+    }
+  </script></body>
+</html>/* ==================== manifest.json ==================== */ { "name": "TUNZY SHOP V3", "short_name": "TUNZY V3", "start_url": "/", "display": "standalone", "background_color": "#001219", "theme_color": "#00b4d8", "icons": [ { "src": "https://dl.dir.freefiremobile.com/common/web_event/official2.ff.garena.all/202311/a80ef2744fa83dc119cc09249d70444e.png", "sizes": "192x192", "type": "image/png" }, { "src": "https://dl.dir.freefiremobile.com/common/web_event/official2.ff.garena.all/202311/a80ef2744fa83dc119cc09249d70444e.png", "sizes": "512x512", "type": "image/png" } ] }
+
+/* ==================== sw.js (service worker) ==================== */
+
+const CACHE_NAME = 'tunzy-sensi-v3-v1'; const CACHE_FILES = [ '/', '/index.html', ];
+
+self.addEventListener('install', (e) => { e.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll(CACHE_FILES)) ); self.skipWaiting(); }); self.addEventListener('activate', (e) => { e.waitUntil(self.clients.claim()); }); self.addEventListener('fetch', (e) => { e.respondWith(caches.match(e.request).then(resp => resp || fetch(e.request))); });
